@@ -20,20 +20,18 @@ public class SimulationService : ISimulationService
             {
                 //just check if the first door is the prize door
                 stayWins += doors[doorIndex];
+                continue;
             }
+            
+            //if he choose the prize door and switch he will lose
+            if (doors[doorIndex] == 1)
+                continue;
 
-            else
-            {
-                //if he choose the prize door and switch he will lose
-                if (doors[doorIndex] == 1)
-                    continue;
+            //find empty door index
+            int emptyDoorIndex = Utils.OpenEmptyDoor(request.SelectedDoorNumber, doors);
 
-                //find empty door index
-                int emptyDoor = Utils.OpenEmptyDoor(request.SelectedDoorNumber, doors);
-
-                //in order to find switch door we need to remove the empty door and selected door to find index of the switch door
-                switchWins += doors[3 - doorIndex - emptyDoor];
-            }
+            //in order to find switch door we need to remove the empty door and selected door to find index of the switch door
+            switchWins += doors[3 - doorIndex - emptyDoorIndex];
         }
 
         return new SimulationResultDto

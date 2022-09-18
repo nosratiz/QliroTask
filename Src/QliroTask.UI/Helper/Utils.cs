@@ -13,18 +13,17 @@ public static class Utils
 
     public static int OpenEmptyDoor(int selectedDoor, List<int> doors)
     {
-        var emptyDoor = 0;
-        
+        var emptyDoorIndex = 0;
         
         //find the index that not selected and not prize door
         for (var i = 0; i < doors.Count; i++)
         {
             if (doors[i] != 0 || i == (selectedDoor -1)) continue;
            
-            emptyDoor = i;
+            emptyDoorIndex = i;
             break;
         }
 
-        return emptyDoor;
+        return emptyDoorIndex;
     }
 }
