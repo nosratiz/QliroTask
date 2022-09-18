@@ -1,0 +1,122 @@
+﻿@model QliroTask.UI.Contracts.Response.SimulationResponse
+@{
+    ViewData["Title"] = "Qliro Task";
+    Layout = "_Layout";
+}
+
+
+@if (Model.IsSuccess == false)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var message in Model.Messages)
+            {
+                <li class="text-danger">@message</li>
+            }
+        </ul>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <p>Simulate a Monty Hall Problem </p>
+        <p>please choose one of the door? </p>
+        <div class="row">
+            <div class="col-md-6">
+
+                <hr/>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <img src="Img/door1.png" alt="door1"/>
+                        <button type="button" class="btn-lg btn-dark" data-bs-toggle="modal" data-doornumber="1" data-bs-target="#myModal">
+                            Choose
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="Img/door2.png" alt="door2"/>
+                        <button type="button" class="btn-lg btn-dark" data-bs-toggle="modal" data-doornumber="2" data-bs-target="#myModal">
+                            Choose
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="Img/door3.png" alt="door3"/>
+                        <button type="button" class="btn-lg btn-dark" data-bs-toggle="modal" data-doornumber="3" data-bs-target="#myModal">
+                            Choose
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                @if (Model.StayWins != 0)
+                {
+                    <div class="alert">
+                        <p>if you stick to your choice</p>
+                        posibility of win: <label class="alert alert-success">@(Model.StayWins) numbers </label>
+                    </div>
+                    <div class="alert">
+                        <p>if you switch your choice</p>
+                        posibility of win: <label class="alert alert-success">@(Model.SwitchWins) numbers </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+           
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" asp-controller="Home" asp-action="Index">
+         
+                <div class="modal-body">
+
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">Numbers Of Simulation</span>
+                        <input class="form-control" type="number" name="NumberOfSimulation" id="NumberOfSimulation" value="100"/>
+                    </div>
+                    <p> please select that you want to swich or saty with same value that select?</p>
+
+                    <input type="hidden" name="SelectedDoorNumber" id="SelectedDoorNumber" value=""/>
+                </div>
+
+      
+                <div class="modal-footer">
+                    <button type="submit" name="IsChangeDoor" value="false" class="btn btn-primary">stay</button>
+                    <button type="submit" name="IsChangeDoor" value="true" class="btn btn-danger">switch</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script >
+        $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) 
+            var recipient = button.data('doornumber') 
+            var modal = $(this)
+        
+            modal.find('.modal-title').text('you choose door number ' + recipient )
+           
+            modal.find('#SelectedDoorNumber').val(recipient)
+   
+            
+        })
+    </script>
+
+}
